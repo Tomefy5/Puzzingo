@@ -1,5 +1,12 @@
+import BasicLayout from "../layouts/BasicLayout";
+import AreaGame from '../components/AreaGame/AreaGame'
+
 export default function GamePage() {
   return (
-    <div>GamePage</div>
+    <div className="min-h-[100vh] flex">
+        <BasicLayout>
+          <AreaGame />
+        </BasicLayout>
+    </div>
   )
 }

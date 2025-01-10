@@ -5,7 +5,7 @@ const UserInfosContext = createContext();
 export default function UserInfosProvider({ children }) {
   const [userInfos, setUserInfos] = useState(null);
 
-  const setNewUser = (name, avatar, level, stats) => {
+  const setNewUser = (name, avatar, level, stats = []) => {
     const newUser = {
       name: name,
       avatar: avatar,

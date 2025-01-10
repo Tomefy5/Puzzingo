@@ -4,12 +4,15 @@ const avatarsPath = import.meta.glob("../../assets/avatars/*.svg", {
   eager: true,
 });
 const avatars = Object.values(avatarsPath).map((module) => module.default);
-export default function AvatarList() {
+export default function AvatarList({setUserAvatar}) {
 
     const [selectedAvatar, setSelectedAvatar] = useState(null);
 
     const handleAvatarSelection = (index) => {
         setSelectedAvatar(index);
+        if(selectedAvatar) {
+          setUserAvatar(avatars[index]);
+        }
     }
 
   return (

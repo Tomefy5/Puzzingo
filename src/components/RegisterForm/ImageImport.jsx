@@ -1,4 +1,11 @@
 import { useState } from "react";
+import { chooseRandomModel, handleImageChange } from "../../utils/PuzzingoFunc";
+import { useEffect } from "react";
+import Fox from "../../assets/puzzingo-model/fox.jpg";
+import Kitchen from "../../assets/puzzingo-model/kitchen.jpg";
+import Nature from "../../assets/puzzingo-model/nature.jpg";
+import Art from "../../assets/puzzingo-model/art.jpg";
+import Food from "../../assets/puzzingo-model/food.jpg";
 
 const chooseImageOptions = [
   { label: "Import Image", value: "import" },
@@ -6,14 +13,44 @@ const chooseImageOptions = [
 ];
 
 const puzzingoModels = [
-  { label: "Animal", value: "animal", url: "" },
-  { label: "Object", value: "object", url: "" },
-  { label: "Nature", value: "nature", url: "" },
-  { label: "People", value: "people", url: "" },
+  {
+    label: "Animal",
+    value: "animal",
+    url: Fox,
+  },
+  {
+    label: "Object",
+    value: "object",
+    url: Kitchen,
+  },
+  {
+    label: "Nature",
+    value: "nature",
+    url: Nature,
+  },
+  { label: "Art", value: "art", url: Art },
+  { label: "Food", value: "food", url: Food },
 ];
 
-export default function ImageImport() {
-  const [importOption, setImportOption] = useState(null);
+export default function ImageImport({ setPuzzleImage }) {
+  const firstRandomModel = chooseRandomModel(
+    puzzingoModels,
+    puzzingoModels.length
+  );
+  const [importOption, setImportOption] = useState("import");
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState(firstRandomModel.url);
+  const [model, setModel] = useState(null);
+
+  useEffect(() => {
+    if (importOption === "useModel" && model) {
+      setPreview(model.url);
+    }
+  }, [model]);
+
+  useEffect(() => {
+    setPuzzleImage(preview);
+  }, [preview]);
 
   return (
     <>
@@ -43,29 +80,36 @@ export default function ImageImport() {
               id="file-upload"
               type="file"
               accept="image/*"
-              onChange={(e) => console.log(e.target.files[0])}
+              onChange={
+                importOption === "import" &&
+                ((event) => {
+                  handleImageChange(event, setImage, setPreview);
+                })
+              }
               className="hidden"
             />
           </>
         ) : (
           <>
-            <label
-              htmlFor="puzzle-model"
-              className="cursor-pointe font-medium text-slate-400 rounded-md transition duration-200"
+            <input
+              readOnly
+              type="text"
+              value={model.label}
+              className="text-slate-900 py-2 w-36 md:w-48 px-2 md:px-4 rounded bg-blue-200 text-center font-bold focus:outline-none"
+            />
+            <button
+              onClick={
+                importOption === "useModel" &&
+                (() => {
+                  setModel(
+                    chooseRandomModel(puzzingoModels, puzzingoModels.length)
+                  );
+                })
+              }
+              className="text-blue-700 hover:bg-blue-900 hover:text-blue-200 font-medium py-2 px-4 appearance-none rounded flex bg-transparent ring-1 focus:outline-none"
             >
-              Choose model :
-            </label>
-            <select
-              name="puzzle-model"
-              id="puzzle-model"
-              className="text-blue-700 font-medium py-2 px-4 appearance-none rounded flex bg-transparent ring-1 focus:outline-none"
-            >
-              {puzzingoModels.map((model, index) => (
-                <option key={index} value={model.value} className="bg-slate-900">
-                  {model.label}
-                </option>
-              ))}
-            </select>
+              Change
+            </button>
           </>
         )}
       </div>
