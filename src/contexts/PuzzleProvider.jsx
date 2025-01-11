@@ -1,8 +1,15 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
 
 const PuzzleContext = createContext();
-export default function PuzzleProvider() {
+export function PuzzleProvider({ children }) {
+  const [selectedPuzzleImage, setSelectedPuzzleImage] = useState(null);
   return (
-    <div>PuzzleProvider</div>
-  )
+    <PuzzleContext.Provider
+      value={{ selectedPuzzleImage, setSelectedPuzzleImage }}
+    >
+      {children}
+    </PuzzleContext.Provider>
+  );
 }
+
+export default PuzzleContext;

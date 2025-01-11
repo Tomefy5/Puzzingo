@@ -4,10 +4,13 @@ import ImageImport from "./ImageImport";
 import LevelButtons from "./LevelButtons";
 import { useState } from "react";
 import { extractUsername } from "../../utils/UserInfoTraitement";
+import { useContext } from "react";
+import UserInfosContext from "../../contexts/UserInfosProvider";
+import PuzzleContext from "../../contexts/PuzzleProvider";
 
 export default function RegisterForm() {
   const [userName, setUserName] = useState("Unknown");
-  const [userAvatar, setUserAvatar] = useState("unknown");
+  const [userAvatar, setUserAvatar] = useState(null);
   const [puzzleImage, setPuzzleImage] = useState(null);
   const [level, setLevel] = useState(null);
 
@@ -15,6 +18,9 @@ export default function RegisterForm() {
   const navigateHandler = () => {
     navigate("/game");
   };
+
+  const { setNewUser } = useContext(UserInfosContext);
+  const { setSelectedPuzzleImage } = useContext(PuzzleContext); 
 
   return (
     <form
@@ -45,6 +51,8 @@ export default function RegisterForm() {
         <button
           onClick={() => {
             navigateHandler();
+            setNewUser(userName, userAvatar, level);
+            setSelectedPuzzleImage(puzzleImage);
           }}
           className="bg-gradient-to-r from-blue-800 to-blue-950 py-2 px-6 font-medium rounded-md hover:scale-105 transition-all duration-200"
         >

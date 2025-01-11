@@ -40,7 +40,7 @@ export default function ImageImport({ setPuzzleImage }) {
   const [importOption, setImportOption] = useState("import");
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(firstRandomModel.url);
-  const [model, setModel] = useState(null);
+  const [model, setModel] = useState(firstRandomModel);
 
   useEffect(() => {
     if (importOption === "useModel" && model) {
