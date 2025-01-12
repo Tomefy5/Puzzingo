@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { chooseRandomModel, handleImageChange } from "../../utils/PuzzingoFunc";
+import { chooseRandomModel, compressImage, handleImageChange } from "../../utils/PuzzingoFunc";
 import { useEffect } from "react";
 import Fox from "../../assets/puzzingo-model/fox.jpg";
 import Kitchen from "../../assets/puzzingo-model/kitchen.jpg";
@@ -38,7 +38,7 @@ export default function ImageImport({ setPuzzleImage }) {
     puzzingoModels.length
   );
   const [importOption, setImportOption] = useState("import");
-  const [image, setImage] = useState(null);
+  const [, setImage] = useState(null);
   const [preview, setPreview] = useState(firstRandomModel.url);
   const [model, setModel] = useState(firstRandomModel);
 
@@ -51,6 +51,19 @@ export default function ImageImport({ setPuzzleImage }) {
   useEffect(() => {
     setPuzzleImage(preview);
   }, [preview]);
+
+
+  useEffect(() => {
+    const compressCurrentPreview = async () => {
+        const compressedPreview = await compressImage(preview);
+        if (compressedPreview) {
+          setPreview(compressedPreview);
+        }
+    };
+  
+    compressCurrentPreview();
+  }, [preview, importOption]);
+  
 
   return (
     <>

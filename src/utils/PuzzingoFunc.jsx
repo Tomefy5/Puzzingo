@@ -1,3 +1,4 @@
+import imageCompression from "browser-image-compression";
 export const handleImageChange = (event, setImage, setPreview) => {
   const file = event.target.files[0];
   if (file) {
@@ -52,3 +53,61 @@ export const splitImage = async (imageSrc, rows, cols) => {
     image.onerror = () => reject("Erreur on spliting image");
   });
 };
+
+export async function compressImage(fileUrl) {
+  const imageBlob = await preparePreviewCompression(fileUrl);
+  if (!imageBlob) {
+    console.error("Can't compress preview");
+  }
+
+  const options = {
+    maxSizeMB: 0.5,
+    maxWidthOrHeight: 1024,
+    useWebWorker: true,
+  };
+
+  try {
+    const compressedFile = await imageCompression(imageBlob, options);
+    const compressedBase64 = await imageCompression.getDataUrlFromFile(
+      compressedFile
+    );
+    return compressedBase64;
+  } catch (err) {
+    console.error("Error while compressing image", err);
+    return null;
+  }
+}
+
+export async function urlToBlob(url) {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Error while fetching image ${response.status}`);
+  }
+  const blob = response.blob();
+  return blob;
+}
+
+export const base64ToBlob = (base64) => {
+  const [prefix, data] = base64.split(",");
+  const mime = prefix.match(/:(.*?);/)[1];
+  const byteString = atob(data);
+  const byteArray = new Uint8Array(byteString.length);
+
+  for (let i = 0; i < byteString.length; i++) {
+    byteArray[i] = byteString.charCodeAt(i);
+  }
+
+  return new Blob([byteArray], { type: mime });
+};
+
+export async function preparePreviewCompression(preview) {
+  if (preview.startsWith("data:image/")) {
+    return base64ToBlob(preview);
+  } else if (typeof preview === "string") {
+    const response = await fetch(preview);
+    const blob = await response.blob();
+    return blob;
+  } else {
+    throw new Error("Invalid image source format");
+  }
+}

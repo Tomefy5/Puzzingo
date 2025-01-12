@@ -29,7 +29,6 @@ export default function UserProfil() {
       <span className="font-medium text-sm text-slate-300 text-center">
         {userInfos ? userInfos.name : "Unknown"}
       </span>
-      {userInfos && console.log(unknownAvatar)}
     </div>
   );
 }
