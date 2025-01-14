@@ -111,3 +111,32 @@ export async function preparePreviewCompression(preview) {
     throw new Error("Invalid image source format");
   }
 }
+
+export function constructPiecesInfos(result) {
+  const piecesInfos = Object.values(result).map((data, index) => ({
+    id: `puzzingo-${index}-${new Date()}`,
+    url: data,
+    name: `puzzingo-${index}`,
+    fromArea: 'pieceArea'
+  }));
+
+  return piecesInfos;
+}
+
+
+export function swapPiece(array, fromIndex, toIndex) {
+  const temp = array[fromIndex];
+  array[fromIndex] = array[toIndex];
+  array[toIndex] = temp;
+}
+
+export function shuffleArray(array) {
+  for (let  i = array.length - 1; i > 0; i--) {
+    const randomIndex = Math.floor(Math.random() * (i + 1));
+    [array[i], array[randomIndex]] = [array[randomIndex], array[i]];
+  }
+
+  return array;
+}
+
+

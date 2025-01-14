@@ -11,11 +11,14 @@
   },
   "dependencies": {
     "browser-image-compression": "^2.0.2",
+    "dnd-multi-backend": "^8.1.2",
     "framer-motion": "^11.16.0",
     "lucide-react": "^0.468.0",
     "react": "^18.3.1",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
+    "react-dnd-multi-backend": "^8.1.2",
+    "react-dnd-touch-backend": "^16.0.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.1.1"
   },
