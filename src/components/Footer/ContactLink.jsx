@@ -1,8 +1,8 @@
-import { Github, Facebook } from "lucide-react";
+import { Github, Linkedin } from "lucide-react";
 
 const contactList = [
-  { contact: "facebook", Logo: Facebook, link: "#" },
-  { contact: "github", Logo: Github, link: "#" },
+  { contact: "facebook", Logo: Linkedin, link: "https://www.linkedin.com/in/tomefy-ny-soa-andry-tsiresy-9a111a322/" },
+  { contact: "github", Logo: Github, link: "https://github.com/Tomefy5" },
 ];
 
 export default function ContactLink() {
