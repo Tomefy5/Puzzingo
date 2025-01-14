@@ -58,7 +58,6 @@ export default function AreaGame() {
 
         const puzzlePiecesInfo = await constructPiecesInfos(result);
         setPuzzlePiecesInfos(puzzlePiecesInfo);
-        console.log("Puzzle pieces fetched:", puzzlePiecesInfo);
       } catch (err) {
         console.error("Error fetching puzzle:", err);
       }
@@ -71,7 +70,6 @@ export default function AreaGame() {
     if (puzzlePiecesInfos.length > 0) {
       const shuffledArray = shuffleArray(puzzlePiecesInfos);
       setPiecesInPieceArea(shuffledArray);
-      console.log("Shuffled pieces:", shuffledArray);
     }
   }, [puzzlePiecesInfos]);
 
@@ -85,10 +83,6 @@ export default function AreaGame() {
     }
   }, [isWinning, navigate]);
 
-  // useEffect(() => {
-  //   console.log("Pieces in puzzle area:", piecesInPuzzleArea);
-  //   console.log("Pieces in piece area:", piecesInPieceArea);
-  // }, [piecesInPuzzleArea, piecesInPieceArea]);
 
   useEffect(() => {
     if(piecesInPieceArea.length > 0 && piecesInPieceArea.every(piece => piece === null)) {
