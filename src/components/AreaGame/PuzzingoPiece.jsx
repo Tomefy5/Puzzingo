@@ -14,13 +14,13 @@ export default function PuzzingoPiece({ piece }) {
     <div
       ref={dragRef}
       className={`${isDragging ? "opacity-50" : "opacity-100"} ${
-        piece.fromArea === "puzzleArea" ? "" : "h-[80px] w-[80px]"
-      } flex-grow-0 flex-shrink-0 duration-200 rounded-sm shadow-around shadow-slate-950`}
+        piece.fromArea === "puzzleArea" ? "object-cover w-full h-full" : "h-[80px] w-[80px]"
+      } flex-grow-0 flex-shrink-0 duration-200 rounded-sm`}
     >
       <img
         src={piece.url}
         alt={`${piece.name}`}
-        className="w-full h-full object-cover rounded-sm shadow-around"
+        className="w-full h-full object-cover rounded-sm"
       />
     </div>
   );

@@ -28,7 +28,7 @@ export default function DropPuzzleArea({ piece, onDrop, dropZoneIndex }) {
           : userInfos.level === "level2"
           ? "w-[90px] h-[90px] md:w-[110px] md:h-[110px] lg:w-[140px] lg:h-[140px]"
           : "w-[60px] h-[60px] md:w-[80px] md:h-[80px] lg:w-[100px] lg:h-[100px]"
-      } ${isOver ? "bg-slate-700" : ""} mx-auto duration-200 bg-red-500`}
+      } ${isOver ? "bg-slate-700" : ""} mx-auto duration-200`}
     >
       {piece ? (
         <PuzzingoPiece piece={{ ...piece, fromArea: "puzzleArea" }} />

@@ -9,19 +9,23 @@ import { TouchBackend } from "react-dnd-touch-backend";
 import { useContext, useEffect, useState } from "react";
 import PuzzleContext from "../../contexts/PuzzleProvider";
 import {
+  checkWin,
   constructPiecesInfos,
   shuffleArray,
   splitImage,
 } from "../../utils/PuzzingoFunc";
 import UserInfosContext from "../../contexts/UserInfosProvider";
+import { useNavigate } from "react-router-dom"; 
 
 export default function AreaGame() {
+  const navigate = useNavigate();
   const { selectedPuzzleImage } = useContext(PuzzleContext);
   const { userInfos } = useContext(UserInfosContext);
 
   const [puzzlePiecesInfos, setPuzzlePiecesInfos] = useState([]);
   const [piecesInPuzzleArea, setPiecesInPuzzleArea] = useState([]);
   const [piecesInPieceArea, setPiecesInPieceArea] = useState([]);
+  const [isWinning, setIsWinning] = useState(false);
 
   const arrayLength =
     userInfos.level === "level1"
@@ -72,9 +76,27 @@ export default function AreaGame() {
   }, [puzzlePiecesInfos]);
 
   useEffect(() => {
-    console.log("Pieces in puzzle area:", piecesInPuzzleArea);
-    console.log("Pieces in piece area:", piecesInPieceArea);
-  }, [piecesInPuzzleArea, piecesInPieceArea]);
+    if (isWinning) {
+      const timer = setTimeout(() => {
+        navigate("/"); // Redirection vers "/"
+      }, 3000);
+
+      // Nettoyage du timeout pour éviter des effets indésirables
+      return () => clearTimeout(timer);
+    }
+  }, [isWinning, navigate]);
+
+  // useEffect(() => {
+  //   console.log("Pieces in puzzle area:", piecesInPuzzleArea);
+  //   console.log("Pieces in piece area:", piecesInPieceArea);
+  // }, [piecesInPuzzleArea, piecesInPieceArea]);
+
+  useEffect(() => {
+    if(piecesInPieceArea.length > 0 && piecesInPieceArea.every(piece => piece === null)) {
+      const isWin = checkWin(piecesInPuzzleArea);
+      setIsWinning(isWin);
+    }
+  }, [piecesInPieceArea])
 
   const multiBackendOptions = {
     backends: [
@@ -96,7 +118,7 @@ export default function AreaGame() {
         const updatedPieces = [...prev]; 
         for (let i = 0; i < updatedPieces.length; i++) {
           if (updatedPieces[i] === null) {
-            updatedPieces[i] = item; 
+            updatedPieces[i] = {...item, fromArea: 'pieceArea'}; 
             break;
           }
         }
@@ -115,7 +137,7 @@ export default function AreaGame() {
     } else if (item.fromArea === "pieceArea") {
       setPiecesInPuzzleArea((prev) => {
         const updated = [...prev]; 
-        updated[dropZoneIndex] = item;
+        updated[dropZoneIndex] = {...item, fromArea: 'puzzleArea'};
         return updated;
       });
   
@@ -137,7 +159,7 @@ export default function AreaGame() {
               : userInfos.level === "level2"
               ? "grid-cols-3"
               : "grid-cols-4"
-          } grid shadow-slate-600 duration-200 p-1 bg-green-500 gap-[3px] items-center  mx-auto rounded shadow-around`}
+          } grid shadow-slate-600 duration-200 p-1 gap-[1px] items-center  mx-auto rounded shadow-around`}
         >
           {Array.from({ length: arrayLength }).map((_, index) => (
             <DropPuzzleArea

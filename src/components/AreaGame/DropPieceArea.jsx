@@ -28,7 +28,7 @@ export default function DropPieceArea({ pieces, onDrop }) {
       ref={dropRef}
       className={`shadow-slate-600 ${
         isOver ? "shadow-slate-400" : ""
-      } duration-200 flex gap-3 items-center p-4 w-full max-w-[600px] mx-auto shadow-around rounded h-[22%] overflow-x-auto`}
+      } duration-200 flex gap-3 items-center p-4 w-full mx-auto shadow-around rounded h-[110px] lg:h-[130px] overflow-x-auto`}
     >
       {piecePieces.length > 0 ? (
         piecePieces.map((piece, index) =>

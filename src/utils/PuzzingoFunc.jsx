@@ -117,7 +117,8 @@ export function constructPiecesInfos(result) {
     id: `puzzingo-${index}-${new Date()}`,
     url: data,
     name: `puzzingo-${index}`,
-    fromArea: 'pieceArea'
+    fromArea: 'pieceArea',
+    isWinindex: index
   }));
 
   return piecesInfos;
@@ -137,6 +138,16 @@ export function shuffleArray(array) {
   }
 
   return array;
+}
+
+
+export function checkWin(array) {
+  for (let i = 0; i < array.length; i++) {
+    if (i !== array[i].isWinindex) {
+      return false;
+    }
+  }
+  return true;
 }
 
 
