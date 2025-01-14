@@ -3,8 +3,7 @@ import { ItemTypes } from "./ItemTypes";
 import PuzzingoPiece from "./PuzzingoPiece";
 import { Fragment, useEffect, useState } from "react";
 
-export default function DropPieceArea({ pieces, onDrop }) {
-  
+export default function DropPieceArea({ pieces, onDrop, isWinning }) {
   const [piecePieces, setPiecePieces] = useState([]);
   useEffect(() => {
     setPiecePieces(pieces);
@@ -44,6 +43,7 @@ export default function DropPieceArea({ pieces, onDrop }) {
       ) : (
         <p className="text-center font-medium w-full">Loading puzzle pieces</p>
       )}
+      {isWinning && <p className="text-center w-full font-bold text-xl md:text-3xl">🎉 Congrats! You nailed the puzzle! 🧩✨</p>}
     </div>
   );
 }

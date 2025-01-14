@@ -78,10 +78,9 @@ export default function AreaGame() {
   useEffect(() => {
     if (isWinning) {
       const timer = setTimeout(() => {
-        navigate("/"); // Redirection vers "/"
-      }, 3000);
+        navigate("/");
+      }, 5000);
 
-      // Nettoyage du timeout pour éviter des effets indésirables
       return () => clearTimeout(timer);
     }
   }, [isWinning, navigate]);
@@ -174,6 +173,7 @@ export default function AreaGame() {
         </div>
         <DropPieceArea
           pieces={piecesInPieceArea}
+          isWinning={isWinning}
           onDrop={(item, dropZoneIndex) => {
             dropHandler(item, dropZoneIndex);
           }}

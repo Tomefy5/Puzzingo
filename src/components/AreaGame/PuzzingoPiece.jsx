@@ -20,7 +20,7 @@ export default function PuzzingoPiece({ piece }) {
       <img
         src={piece.url}
         alt={`${piece.name}`}
-        className="w-full h-full object-cover rounded-sm"
+        className="w-full h-full object-countain rounded-sm"
       />
     </div>
   );
